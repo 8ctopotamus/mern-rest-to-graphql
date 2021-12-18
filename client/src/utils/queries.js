@@ -11,3 +11,12 @@ export const QUERY_MATCHUPS = gql`
     }
   }
 `
+
+export const GET_ALL_TECH = gql`
+  query AllTech {
+    tech {
+      _id
+      name
+    }
+  }
+`
