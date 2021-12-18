@@ -1,38 +1,30 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { getMatchup, createVote } from '../utils/api';
+
+import { useQuery, useMutation } from '@apollo/client';
+import { QUERY_MATCHUPS } from '../utils/queries'
+import { CREATE_VOTE } from '../utils/mutations'
 
 const Vote = () => {
-  const [matchup, setMatchup] = useState({});
   let { id } = useParams();
 
-  useEffect(() => {
-    const getMatchupInfo = async () => {
-      try {
-        const res = await getMatchup(id);
-        if (!res.ok) {
-          throw new Error('No matchup');
-        }
-        const matchup = await res.json();
-        setMatchup(matchup);
-      } catch (err) {
-        console.error(err);
-      }
-    };
-    getMatchupInfo();
-  }, [id]);
+  const [createVote] = useMutation(CREATE_VOTE)
+  const { data } = useQuery(QUERY_MATCHUPS, {
+    variables: { _id: id }
+  })
+
+  const matchup = data && data.matchups && data.matchups.length > 0 
+    ? data.matchups[0]
+    : {}
 
   const handleVote = async (techNum) => {
     try {
-      const res = await createVote({ id, techNum });
-
-      if (!res.ok) {
-        throw new Error('Could not vote');
-      }
-
-      const matchup = await res.json();
-      console.log(matchup);
-      setMatchup(matchup);
+      await createVote({
+        variables: {
+          techNum,
+          _id: id
+        }
+      })
     } catch (err) {
       console.error(err);
     }
