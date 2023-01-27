@@ -18,6 +18,22 @@ const resolvers = {
     matchup: async (parent, args, context, info) => {
       return await Matchup.findById(args._id)
     }
+  },
+  Mutation: {
+    addTech: async (parent, args, context, info) => {
+      return await Tech.create(args)
+    },
+    updateTech: async (parent, args, context, info) => {
+      return await Tech.findByIdAndUpdate(
+        args._id, 
+        { name: args.name }, 
+        { new: true }
+      )
+    },
+    deleteTech: async (parent, args, context, info) => {
+      await Tech.findByIdAndDelete(args._id)
+      return args._id
+    },
   }
 }
 

@@ -19,6 +19,12 @@ const typeDefs = `
     matchups: [Matchup]
     matchup(_id: ID!): Matchup 
   }
+
+  type Mutation {
+    addTech(name: String!): Tech
+    updateTech(_id: ID!, name: String!): Tech
+    deleteTech(_id: ID!): ID
+  }
 `;
 
 module.exports = typeDefs
