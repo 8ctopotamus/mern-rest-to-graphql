@@ -14,7 +14,10 @@ const typeDefs = `
 
   type Query {
     techs: [Tech]
+    tech(_id: ID, name: String): Tech
+
     matchups: [Matchup]
+    matchup(_id: ID!): Matchup 
   }
 `;
 
