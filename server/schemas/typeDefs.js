@@ -24,6 +24,9 @@ const typeDefs = `
     addTech(name: String!): Tech
     updateTech(_id: ID!, name: String!): Tech
     deleteTech(_id: ID!): ID
+
+    createMatchup(tech1: String!, tech2: String!): Matchup
+    createVote(_id: ID!, techNum: Int!): Matchup
   }
 `;
 

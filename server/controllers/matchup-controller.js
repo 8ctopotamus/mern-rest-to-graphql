@@ -11,17 +11,17 @@ module.exports = {
     res.status(200).json(matchup);
   },
   async createVote(req, res) {
-    const vote = await Matchup.findOneAndUpdate(
+    const matchup = await Matchup.findOneAndUpdate(
       { _id: req.body.id },
       { $inc: { [`tech${req.body.techNum}_votes`]: 1 } },
       { new: true }
     );
 
-    if (!vote) {
+    if (!matchup) {
       return res.status(400).json({ message: 'Unable to vote on matchup' });
     }
 
-    res.status(200).json(vote);
+    res.status(200).json(matchup);
   },
   async getAllMatchups(req, res) {
     const allMatchups = await Matchup.find({});

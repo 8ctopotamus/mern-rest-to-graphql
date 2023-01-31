@@ -34,6 +34,18 @@ const resolvers = {
       await Tech.findByIdAndDelete(args._id)
       return args._id
     },
+    createMatchup: async (parent, args, context, info) => {
+      const matchup = await Matchup.create(args);
+      return matchup
+    },
+    createVote: async (parent, { _id, techNum }, context, info) => {
+      const matchup = await Matchup.findOneAndUpdate(
+        { _id: _id },
+        { $inc: { [`tech${techNum}_votes`]: 1 } },
+        { new: true }
+      );
+      return matchup
+    },
   }
 }
 
